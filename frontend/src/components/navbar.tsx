@@ -5,7 +5,7 @@ const Navbar = () => {
   const [visible, setVisible] = useState(false);
   return (
     <>
-      <div className=" flex  justify-between md:px-20 px-8 py-2 shadow-md bg-white z-10 backdrop-blur-md items-start h-14 text fixed top-0 w-full">
+      <div className=" flex  justify-between md:px-20 px-8 py-2 shadow-md bg-white z-10 backdrop-blur-md items-start h-14 text  w-full  sticky top-0 ">
         
         <div className="text-2xl font-bold tracking-tighter">
           <Link to="/">TickTickBoom</Link>

@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import axios from 'axios'
 
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
+
 const schema = z.object({
     firstname: z.string().min(1,"Firstname is required").max(10),
     lastname: z.string().min(1,"Lastname is required").max(10),
@@ -14,15 +17,20 @@ type FormFields = z.infer<typeof schema>;
 
 const SignUp = () => {
 
-const {register,handleSubmit,formState:{errors,isSubmitting}} = useForm<FormFields>({
+const {register,reset,handleSubmit,formState:{errors,isSubmitting}} = useForm<FormFields>({
     resolver:zodResolver(schema)
 })
-
+const navigate = useNavigate();
 const onSubmit : SubmitHandler<FormFields> = async(data:FormFields)=>{
     const result = schema.safeParse(data)
     if(result.success){
-        console.log(data    )
+        const response = await axios.post("/api/user/signup",result.data)
+        console.log(response.status + response.data.message)
+        reset();
+        navigate('/signin');
+          
     }
+
 
 }
   return (
@@ -35,7 +43,7 @@ const onSubmit : SubmitHandler<FormFields> = async(data:FormFields)=>{
             className="w-screen h-screen  "
           />
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}  className="  flex flex-col justify-center gap-4 items-center w-[600px] h-[500px] my-auto mx-auto rounded-md shadow-md  bg-while/30 backdrop-blur-md ">
+        <form onSubmit={handleSubmit(onSubmit)}  className="  flex flex-col justify-center gap-4 items-center w-[500px] h-[500px] my-auto mx-auto rounded-md shadow-md  bg-while/30 backdrop-blur-md ">
           <h1 className="text-3xl tracking-tighter">Sign up</h1>
           <div className="flex flex-col w-[60%] gap-1 ">
             <p>Firstname</p>
@@ -70,9 +78,13 @@ const onSubmit : SubmitHandler<FormFields> = async(data:FormFields)=>{
                 <input {...register("password")} type="text" placeholder="***********"  className="p-2 rounded-lg items-center"/>
                 {errors.password && (<div className="text-red-500">{errors.password.message}</div>)}
 
-            </div>          <button className="bg-blue-500 rounded-lg w-[60%] text-center px-2 py-2 cursor-pointer" type="submit" disabled={isSubmitting}>
+            </div>
+            <div className="flex flex-col w-full items-center">
+              
+            <button className="bg-blue-500 rounded-lg w-[60%] text-center px-2 py-2 cursor-pointer" type="submit" disabled={isSubmitting}>
             <p>{isSubmitting?"...Loading":"Submit"}</p>
           </button>
+              </div>  
         </form>
       </div>
     </>

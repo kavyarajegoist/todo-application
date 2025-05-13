@@ -12,7 +12,7 @@ function App() {
       <div className="font-sans">
         
       <BrowserRouter>
-      <Navbar/> 
+      
       
       <Routes>
        <Route path = "/signup" element={<SignUp/>}/>
@@ -20,7 +20,7 @@ function App() {
       <Route path="/signin" element={<SignIn/>}/>
       <Route path='/create-todo' element= {<Todo/>}/>
       </Routes>
-      <Footer/>
+     
       </BrowserRouter>
       </div>
       

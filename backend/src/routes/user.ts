@@ -64,6 +64,8 @@ userRouter.post('/signin',async (req:Request,res:Response):Promise<void>=> {
         })
 
         res.status(200).json({message:'SignIn Successfully',
+            user,
+            refreshToken,  
             accessToken
         })
 
@@ -94,14 +96,15 @@ userRouter.post('/refresh',async(req,res):Promise<void>=>{
     }
 })
 
-// userRouter.get('/profile',userAuth,(req,res)=>{
-
-
-// })
-
-// userRouter.put('/profile',userAuth,(req,res)=>{
-
-// })
+userRouter.post('/logout',userAuth,(req:Request,res:Response):void=>{
+    try{
+        res.clearCookie('refreshToken');
+        res.status(200).json({message:'Logout Successfully'});
+    }catch(err){
+        res.status(500).json({message:'Internal Server Error'});
+        return;
+    }
+})
 
 export default userRouter;
 

@@ -24,7 +24,7 @@ const navigate = useNavigate();
 const onSubmit : SubmitHandler<FormFields> = async(data:FormFields)=>{
     const result = schema.safeParse(data)
     if(result.success){
-        const response = await axios.post("/api/user/signup",result.data)
+        const response = await axios.post("api/user/signup",result.data)
         console.log(response.status + response.data.message)
         reset();
         navigate('/signin');
